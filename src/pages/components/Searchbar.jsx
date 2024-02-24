@@ -5,7 +5,7 @@ import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 export default function Searchbar() {
   return (
-    <div className="flex space-x-[0.7rem] justify-center items-center">
+    <div className="flex space-x-[0.7rem] justify-center items-center hidden md:flex ">
       <form className="flex space-x-[0.7rem] items-center w-[16.86538rem] h-[2.30306rem] shadow-form justify-center rounded-full">
         <FontAwesomeIcon
           icon={faMagnifyingGlass}

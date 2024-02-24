@@ -11,36 +11,31 @@ const NavLinks = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col">
       <NavLink
         to="/"
-        className={`text-primary font-proxima-nova ${isActive("/")}`}
+        className={`text-primary font-proxima-nova p-4 ${isActive("/")}`}
       >
         Home
       </NavLink>
       <NavLink
         to="/explore"
-        className={`text-primary font-proxima-nova ${isActive("/explore")}`}
+        className={`text-primary font-proxima-nova p-4 ${isActive("/explore")}`}
       >
         Explore
       </NavLink>
       <NavLink
         to="/community"
-        className={`text-primary font-proxima-nova ${isActive("/community")}`}
+        className={`text-primary font-proxima-nova p-4 ${isActive(
+          "/community"
+        )}`}
       >
         Community
       </NavLink>
-    </>
+    </div>
   );
 };
 
-export default function Navbar() {
-  return (
-    <div className="md-px:14 max-w-screen-2x1 flex space-x-[4rem] items-center">
-      <Logo />
-      <div className="md:flex hidden space-x-[4rem]">
-        <NavLinks />
-      </div>
-    </div>
-  );
+export default function NavbarMobile() {
+  return <NavLinks />;
 }

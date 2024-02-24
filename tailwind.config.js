@@ -8,6 +8,7 @@ module.exports = {
         icons: "#717171",
         input: "Form",
         secondary: "#A15F43",
+        bgPrimary: "#e5e5e5",
       },
       spacing: {},
       fontFamily: {
