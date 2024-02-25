@@ -18,7 +18,7 @@ export default function Searchbar() {
           className="focus:outline-none text-input font-overlock w-[13.13181rem] h-[1.39581rem]"
         />
       </form>
-      <Link to="/sign-in">
+      <Link to="/sign-up">
         <FontAwesomeIcon
           className="w-[2rem] h-[2rem]"
           icon={faCircleUser}

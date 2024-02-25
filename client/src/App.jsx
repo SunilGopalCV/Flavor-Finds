@@ -4,7 +4,7 @@ import Signup from "./pages/Signup";
 import Header from "./pages/components/Header";
 import Community from "./pages/Community";
 import Explore from "./pages/Explore";
-import Login from "./pages/login";
+import Login from "./pages/Login";
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/sign-in" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/community" element={<Community />} />

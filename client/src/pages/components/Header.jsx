@@ -16,7 +16,7 @@ export default function Header() {
   };
   return (
     <>
-      <header className="px-5 md:px-14 sticky top-0 left-0 right-0 z-[1000] mx-auto flex w-full max-w-6xl items-center justify-between py-[1rem] border-b border-gray-300 bg-white">
+      <header className="px-5 md:px-14 sticky top-0 left-0 right-0 z-[1000] mx-auto flex w-full max-w-6xl items-center justify-between py-[0.5rem] border-b border-gray-300 bg-white shadow-form">
         <Navbar />
         <Searchbar />
         <div className="md:hidden">
