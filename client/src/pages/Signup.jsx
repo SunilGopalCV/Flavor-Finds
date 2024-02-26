@@ -1,8 +1,8 @@
 import COVER_IMAGE from "/images/Signup.jpg";
 import Logo from "./components/Logo";
-import GOOGLE_ICON from "/icons/LogoGoogle.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "./components/OAuth";
 export default function Signup() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
@@ -97,15 +97,12 @@ export default function Signup() {
             <div className="w-full flex flex-col my-2">
               <button
                 disabled={loading}
-                className="w-full text-white bg-[#060606] rounded-md my-1 p-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#292929]"
+                className="w-full text-white bg-[#060606] rounded-md my-1 p-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#292929] cursor-pointer"
               >
                 {loading ? "Loading..." : "Sign-up"}
               </button>
+              <OAuth />
             </div>
-            <button className="w-full text-[#060606] bg-white border-2 border-black rounded-md py-2 font-proxima-nova font-semibold text-center flex items-center justify-center">
-              <img src={GOOGLE_ICON} className="h-6 mr-2" />
-              Sign Up With Google
-            </button>
           </form>
           <div className="w-full">
             <p className="text-sm font-proxima-nova text-primary">

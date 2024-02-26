@@ -7,6 +7,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../redux/user/userSlice";
+import OAuth from "./components/OAuth";
 
 export default function Login() {
   const [formData, setFormData] = useState({});
@@ -59,8 +60,8 @@ export default function Login() {
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-semibold mb-2 text-gray-700">Login</h2>
           <p className="text-primary font-proxima-nova">
-            Sign up today to discover endless recipes, share your favorites, and
-            connect with fellow food enthusiasts!
+            Welcome Back. Please enter your credentials below to access your
+            account
           </p>
           <form
             onSubmit={handleSubmit}
@@ -87,10 +88,11 @@ export default function Login() {
             <div className="w-full flex flex-col my-2">
               <button
                 disabled={loading}
-                className="w-full text-white bg-[#060606] rounded-md my-1 p-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#292929]"
+                className="w-full text-white bg-[#060606] rounded-md my-1 p-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#292929] cursor-pointer"
               >
                 {loading ? "Loading..." : "Login"}
               </button>
+              <OAuth />
             </div>
           </form>
           <div className="w-full">
