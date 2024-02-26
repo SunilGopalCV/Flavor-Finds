@@ -5,6 +5,8 @@ import Header from "./pages/components/Header";
 import Community from "./pages/Community";
 import Explore from "./pages/Explore";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import PrivateRoute from "./pages/components/PrivateRoute";
 
 export default function App() {
   return (
@@ -16,6 +18,9 @@ export default function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/community" element={<Community />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

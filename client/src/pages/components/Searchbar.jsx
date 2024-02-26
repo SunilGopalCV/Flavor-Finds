@@ -1,12 +1,20 @@
-import React from "react";
+import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import Dropdown from "./Dropdown";
 export default function Searchbar() {
+  const { currentUser } = useSelector((state) => state.user);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
   return (
     <div className="flex space-x-[0.7rem] justify-center items-center hidden md:flex ">
-      <form className="flex space-x-[0.7rem] items-center w-[16.86538rem] h-[2.30306rem] shadow-form justify-center rounded-full">
+      <form className="flex space-x-[0.7rem] items-center w-[16.86538rem] h-[2.30306rem] mr-5 shadow-form justify-center rounded-full">
         <FontAwesomeIcon
           icon={faMagnifyingGlass}
           style={{ color: "#717171" }}
@@ -18,13 +26,26 @@ export default function Searchbar() {
           className="focus:outline-none text-input font-overlock w-[13.13181rem] h-[1.39581rem]"
         />
       </form>
-      <Link to="/sign-up">
-        <FontAwesomeIcon
-          className="w-[2rem] h-[2rem]"
-          icon={faCircleUser}
-          style={{ color: "#717171" }}
-        />
-      </Link>
+      <div onClick={toggleDropdown} className="cursor-pointer">
+        {currentUser ? (
+          <img
+            className="w-[2rem] h-[2rem] rounded-full"
+            src={currentUser.avatar}
+            alt="profile"
+          />
+        ) : (
+          <FontAwesomeIcon
+            className="w-[2rem] h-[2rem]"
+            icon={faCircleUser}
+            style={{ color: "#717171" }}
+          />
+        )}
+        {showDropdown && (
+          <div className="absolute right-5 mt-4 w-48 bg-white rounded-md overflow-hidden shadow-2xl z-10 border border-solid border-gray-300">
+            <Dropdown />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
