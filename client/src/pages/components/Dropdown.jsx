@@ -5,6 +5,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  logOutUserFailure,
+  logOutUserStart,
+  logOutUserSuccess,
 } from "../../redux/user/userSlice";
 
 export default function Dropdown() {
@@ -27,6 +30,21 @@ export default function Dropdown() {
         dispatch(deleteUserFailure(error.message));
       }
     };
+
+    const handleLogout = async () => {
+      try {
+        dispatch(logOutUserStart());
+        const res = await fetch("/api/auth/logout");
+        const data = await res.json();
+        if (data.success === false) {
+          dispatch(logOutUserFailure(data.message));
+          return;
+        }
+        dispatch(logOutUserSuccess(data));
+      } catch (error) {
+        dispatch(logOutUserFailure(error.message));
+      }
+    };
     return (
       <>
         <Link
@@ -35,12 +53,12 @@ export default function Dropdown() {
         >
           Profile
         </Link>
-        <Link
-          to="/sign-out"
-          className="block px-4 py-2 hover:bg-gray-200 no-underline text-primary font-proxima-nova"
+        <span
+          className="block px-4 py-2  hover:bg-gray-200 no-underline text-primary font-proxima-nova"
+          onClick={handleLogout}
         >
           Log Out
-        </Link>
+        </span>
         <span
           className="block px-4 py-2  hover:bg-gray-200 no-underline text-primary font-proxima-nova"
           onClick={handleDeleteUser}

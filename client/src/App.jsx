@@ -7,6 +7,7 @@ import Explore from "./pages/Explore";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./pages/components/PrivateRoute";
+import Recipe from "./pages/Recipe";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/recipe" element={<Recipe />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
