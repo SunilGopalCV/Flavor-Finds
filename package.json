@@ -5,6 +5,7 @@
     "express": "^4.18.2",
     "framer-motion": "^11.0.5",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.341.0",
     "mongoose": "^8.2.0",
     "nodemon": "^3.1.0",
     "react": "^18.2.0"

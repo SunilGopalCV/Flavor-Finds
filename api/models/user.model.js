@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema(
       default:
         "https://cdn.icon-icons.com/icons2/3446/PNG/512/account_profile_user_avatar_icon_219236.png",
     },
+    phone: { type: String, required: false },
+    nickname: { type: String, default: "Chef", required: false },
   },
   { timestamps: true }
 );

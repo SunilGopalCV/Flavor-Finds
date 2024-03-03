@@ -11,7 +11,7 @@ import PrivateRoute from "./pages/components/PrivateRoute";
 export default function App() {
   return (
     <BrowserRouter>
-      <Header />
+      <Header classname={`sticky`} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
