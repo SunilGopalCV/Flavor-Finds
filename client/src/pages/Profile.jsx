@@ -39,6 +39,7 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [editProfile, setEditProfile] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -110,6 +111,7 @@ export default function Profile() {
 
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      setEditProfile(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
@@ -141,7 +143,10 @@ export default function Profile() {
         <div className="flex max-w-full items-center space-x-10 justify-between py-[0.5rem]">
           <div className="flex items-baseline space-x-6">
             <h1 className="font-bold text-[2rem]">User Profile</h1>
-            <p className="mt-6 text-gray-500 items-baseline">
+            <p
+              className="mt-6 text-gray-500 items-baseline cursor-pointer"
+              onClick={() => setEditProfile(false)}
+            >
               Edit Profile <FilePenLine size={18} />
             </p>
           </div>
@@ -181,6 +186,7 @@ export default function Profile() {
                 This will be displayed on your Profile
               </p>
               <button
+                disabled={editProfile}
                 onClick={() => fileRef.current.click()}
                 className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
               >
@@ -206,6 +212,7 @@ export default function Profile() {
               <h2 className="text-primary ">Personal Information</h2>
               <label htmlFor="username">Full name</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="username"
@@ -214,6 +221,7 @@ export default function Profile() {
               />
               <label htmlFor="email">Email address</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="email"
@@ -222,6 +230,7 @@ export default function Profile() {
               />
               <label htmlFor="phone">Mobile Number</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="number"
                 id="phone"
@@ -231,6 +240,7 @@ export default function Profile() {
               />
               <label htmlFor="nickname">Nick Name</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="nickname"
@@ -247,6 +257,7 @@ export default function Profile() {
                 <h2>Bio</h2>
               </label>
               <textarea
+                disabled={editProfile}
                 id="bio"
                 defaultValue={currentUser.bio}
                 rows={8}
@@ -260,6 +271,7 @@ export default function Profile() {
               <h2>Social Media Accounts</h2>
               <label htmlFor="twitter">Twitter</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="twitter"
@@ -269,6 +281,7 @@ export default function Profile() {
               />
               <label htmlFor="instagram">Instagram</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="instagram"
@@ -278,6 +291,7 @@ export default function Profile() {
               />
               <label htmlFor="snapchat">Snapchat</label>
               <input
+                disabled={editProfile}
                 className="w-full py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none font-overlock"
                 type="text"
                 id="snapchat"
