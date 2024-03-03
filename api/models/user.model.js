@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     phone: { type: String, required: false },
     nickname: { type: String, default: "Chef", required: false },
+    bio: { type: String, required: false },
   },
   { timestamps: true }
 );
