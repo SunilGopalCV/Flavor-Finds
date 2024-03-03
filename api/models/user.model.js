@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema(
     phone: { type: String, required: false },
     nickname: { type: String, default: "Chef", required: false },
     bio: { type: String, required: false },
+    twitter: { type: String, required: false },
+    instagram: { type: String, required: false },
+    snapchat: { type: String, required: false },
   },
   { timestamps: true }
 );

@@ -29,9 +29,9 @@ export default function Sidebar({ children }) {
             >
               <div className="flex flex-col my-3 ">
                 <span className="text-xl font-bold font-proxima-nova text-primary">
-                  {currentUser.username
-                    .slice(0, -4)
-                    .replace(/\b\w/g, (char) => char.toUpperCase())}
+                  {currentUser.username.replace(/\b\w/g, (char) =>
+                    char.toUpperCase()
+                  )}
                 </span>
                 <span>{currentUser.nickname}</span>
               </div>

@@ -11,7 +11,7 @@ const NavLinks = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col z-[1000]">
       <NavLink
         to="/"
         className={`text-primary font-proxima-nova p-4 ${isActive("/")}`}

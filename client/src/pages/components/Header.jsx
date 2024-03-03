@@ -40,7 +40,7 @@ export default function Header() {
       <div
         className={`space-y-4 px-4 pt-24 pb-5 ${
           isMenuOpen
-            ? "block fixed top-0 right-0 left-0 bg-bgPrimary"
+            ? "block fixed top-0 right-0 left-0 bg-bgPrimary z-[999]"
             : "hidden"
         }`}
       >

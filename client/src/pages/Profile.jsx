@@ -18,6 +18,12 @@ import {
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { app } from "../firebase";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 // Fire base Storage
 // allow read;
@@ -28,10 +34,12 @@ import { app } from "../firebase";
 export default function Profile() {
   const fileRef = useRef(null);
   const [formData, setFormData] = useState({});
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -79,6 +87,33 @@ export default function Profile() {
     },
     { name: "Logout", path: "/logout", logo: <LogOut size={20} /> },
   ];
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success == false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
   return (
     <div className="flex h-full overflow-hidden">
       <div className="flex sticky shadow-form">
@@ -98,9 +133,10 @@ export default function Profile() {
           ))}
         </Sidebar>
       </div>
-      <div
+      <form
         className="container mx-auto pl-[4rem] bg-[#f6fff9] pr-[2rem] w-full overflow-y-scroll"
         style={{ maxHeight: "calc(100vh - 6rem)" }}
+        onSubmit={handleSubmit}
       >
         <div className="flex max-w-full items-center space-x-10 justify-between py-[0.5rem]">
           <div className="flex items-baseline space-x-6">
@@ -116,12 +152,21 @@ export default function Profile() {
             hidden
             accept="image/*"
           />
-          <button className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300">
+          <button
+            className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300"
+            type="submit"
+            disabled={loading}
+          >
             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
-              Save changes
+              {loading ? "Loading..." : "Save Changes"}
             </span>
           </button>
         </div>
+        <p className="text-red-700 mx-4">{error ? error : " "}</p>
+        <p className="text-green-700 mx-4">
+          {updateSuccess ? "User is updated Successfully" : ""}
+        </p>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Left column */}
           <div className="space-y-8">
@@ -165,6 +210,7 @@ export default function Profile() {
                 type="text"
                 id="username"
                 defaultValue={currentUser.username}
+                onChange={handleChange}
               />
               <label htmlFor="email">Email address</label>
               <input
@@ -172,6 +218,7 @@ export default function Profile() {
                 type="text"
                 id="email"
                 defaultValue={currentUser.email}
+                onChange={handleChange}
               />
               <label htmlFor="phone">Mobile Number</label>
               <input
@@ -180,6 +227,7 @@ export default function Profile() {
                 id="phone"
                 defaultValue={currentUser.phone}
                 placeholder="Enter your number:"
+                onChange={handleChange}
               />
               <label htmlFor="nickname">Nick Name</label>
               <input
@@ -188,11 +236,12 @@ export default function Profile() {
                 id="nickname"
                 defaultValue={currentUser.nickname}
                 placeholder="Enter  nickname (optional):"
+                onChange={handleChange}
               />
             </div>
           </div>
           {/* Right column */}
-          <div className="col-start-2 col-end-3 space-y-8">
+          <div className="space-y-8 md:col-start-2 md:col-end-3">
             <div className="shadow-form flex flex-col p-5 rounded-xl bg-white">
               <label htmlFor="bio">
                 <h2>Bio</h2>
@@ -204,6 +253,7 @@ export default function Profile() {
                 cols={30}
                 className="w-[95%] p-2 my-2 bg-transparent border rounded-xl border-black outline-none focus:outline-none font-overlock"
                 placeholder="Write a bio about yourself..."
+                onChange={handleChange}
               />
             </div>
             <div className="flex flex-col shadow-form p-5 rounded-xl w-[22rem] font-proxima-nova bg-white">
@@ -215,6 +265,7 @@ export default function Profile() {
                 id="twitter"
                 defaultValue={currentUser.twitter}
                 placeholder="Your Twitter handle"
+                onChange={handleChange}
               />
               <label htmlFor="instagram">Instagram</label>
               <input
@@ -223,6 +274,7 @@ export default function Profile() {
                 id="instagram"
                 defaultValue={currentUser.instagram}
                 placeholder="Your Instagram username"
+                onChange={handleChange}
               />
               <label htmlFor="snapchat">Snapchat</label>
               <input
@@ -231,11 +283,12 @@ export default function Profile() {
                 id="snapchat"
                 defaultValue={currentUser.snapchat}
                 placeholder="Your Snapchat username"
+                onChange={handleChange}
               />
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
