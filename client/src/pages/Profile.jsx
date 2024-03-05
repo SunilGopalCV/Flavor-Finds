@@ -24,6 +24,7 @@ import {
   updateUserFailure,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 // Fire base Storage
 // allow read;
@@ -302,6 +303,12 @@ export default function Profile() {
             </div>
           </div>
         </div>
+        <Link
+          className="text-white border-0 bg-[#69e091] rounded-md my-4 p-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#1e7b3d] cursor-pointer no-underline"
+          to={"/create-recipe"}
+        >
+          Create a new Recipe
+        </Link>
       </form>
     </div>
   );
