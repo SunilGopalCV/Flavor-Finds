@@ -123,7 +123,7 @@ export default function CreateRecipe() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/recipe/${data._id}`);
+      navigate(`/recipes/${data._id}`);
     } catch (error) {
       setError(true);
       setLoading(false);

@@ -87,7 +87,7 @@ export default function Profile() {
       path: "/shopping-list",
       logo: <ShoppingBasket size={20} />,
     },
-    { name: "Logout", path: "/logout", logo: <LogOut size={20} /> },
+    { name: "Logout", path: "/api/auth/logout", logo: <LogOut size={20} /> },
   ];
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
