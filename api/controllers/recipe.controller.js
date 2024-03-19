@@ -28,3 +28,23 @@ export const deleteRecipe = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateRecipe = async (req, res, next) => {
+  const recipe = await Recipe.findById(req.params.id);
+  if (!recipe) {
+    return next(errorHandler(404, "Recipe Not Found!"));
+  }
+  if (req.user.id != recipe.createdBy) {
+    return next(errorHandler(401, "You can only update your own recipe!"));
+  }
+  try {
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedRecipe);
+  } catch (error) {
+    next(error);
+  }
+};
