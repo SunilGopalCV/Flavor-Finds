@@ -65,6 +65,21 @@ function Dashboard() {
     fetchRecipes();
   }, [currentUser._id]);
 
+  const handleRecipeDelete = async (recipeId) => {
+    try {
+      const res = await fetch(`/api/recipe/delete/${recipeId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setUserRecipes((prev) => prev.filter((recipe) => recipe.id !== recipeId));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="flex h-full overflow-hidden">
       <div className="flex sticky shadow-form">
@@ -126,7 +141,10 @@ function Dashboard() {
                 </span>
                 <span>Creation Date : {formatDate(recipe.createdAt)}</span>
                 <span>Last Edited : {formatDate(recipe.updatedAt)}</span>
-                <span className="hover:underline cursor-pointer text-[#ff5252]">
+                <span
+                  className="hover:underline cursor-pointer text-[#ff5252]"
+                  onClick={() => handleRecipeDelete(recipe._id)}
+                >
                   Delete <Trash2 className="size-4" />
                 </span>
               </div>
