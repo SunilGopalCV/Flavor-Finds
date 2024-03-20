@@ -26,11 +26,11 @@ export default function UpdateRecipe() {
     totalTime: 0,
     servings: 0,
     difficulty: "Medium",
-    calories: 0,
-    protein: 0,
-    carbohydrates: 0,
-    fat: 0,
-    fiber: 0,
+    calories: null,
+    protein: null,
+    carbohydrates: null,
+    fat: null,
+    fiber: null,
     createdBy: "",
   });
   const [file, setFile] = useState(undefined);
@@ -138,7 +138,7 @@ export default function UpdateRecipe() {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/recipes/${data._id}`);
+      navigate(`/recipe/${data._id}`);
     } catch (error) {
       setError(true);
       setLoading(false);
@@ -419,10 +419,19 @@ export default function UpdateRecipe() {
                 <input
                   type="text"
                   className="w-[40%] py-2 my-2 bg-transparent border border-[#535353] rounded-sm px-2 outline-none focus:outline-none font-overlock"
-                  placeholder="Quantity"
+                  placeholder="Quantity (in numbers)"
                   value={ingredient.quantity}
                   onChange={(e) =>
                     handleIngredientChange(index, "quantity", e.target.value)
+                  }
+                />
+                <input
+                  type="text"
+                  className="w-[40%] py-2 my-2 bg-transparent border border-[#535353] rounded-sm px-2 outline-none focus:outline-none font-overlock"
+                  placeholder="Unit"
+                  value={ingredient.unit}
+                  onChange={(e) =>
+                    handleIngredientChange(index, "unit", e.target.value)
                   }
                 />
               </div>

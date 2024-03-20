@@ -22,7 +22,7 @@ export default function App() {
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/community" element={<Community />} />
-        <Route path="/recipe" element={<Recipe />} />
+        <Route path="/recipe/:recipeId" element={<Recipe />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />

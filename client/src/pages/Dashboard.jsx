@@ -118,9 +118,6 @@ function Dashboard() {
               className="flex justify-between items-center mb-4 max-w-lg"
             >
               <div className="max-w-md rounded-2xl overflow-hidden shadow-lg bg-[#ffe1e1] p-3">
-                <span className="absolute flex bg-white px-2 py-1 mt-20 ml-3 items-center font-proxima-nova text-[114232] rounded-full shadow-form ">
-                  <Clock className="size-4 mr-1" /> {recipe.totalTime + " Min"}
-                </span>
                 <Link to={`/recipe/${recipe._id}`}>
                   <img
                     src={recipe.imageUrl}
@@ -128,12 +125,17 @@ function Dashboard() {
                     className="w-[17rem] h-[7rem] object-cover object-center rounded-2xl"
                   />
                 </Link>
-                <div className="font-bold text-[#114232] text-xl font-proxima-nova mb-2">
+                <div className="font-bold text-[#114232] text-xl font-proxima-nova">
                   {recipe.title}
                 </div>
-                <span className="bg-white px-2 py-1 mt-20 text-[0.8rem] font-bold items-center font-proxima-nova text-[114232] rounded-full shadow-form">
-                  {recipe.cuisine}
-                </span>
+                <div className="flex space-x-3 mt-2 text-[0.8rem] font-bold">
+                  <span className="bg-white px-2 py-1 items-center font-proxima-nova text-[114232] rounded-full shadow-form">
+                    {recipe.cuisine}
+                  </span>
+                  <span className="bg-white px-2 py-1 items-center font-proxima-nova text-[114232] rounded-full shadow-form">
+                    {recipe.totalTime} Minutes
+                  </span>
+                </div>
               </div>
               <div className="flex flex-col space-y-3 font-bold text-[#114232] font-proxima-nova">
                 <Link to={`/update-recipe/${recipe._id}`}>
