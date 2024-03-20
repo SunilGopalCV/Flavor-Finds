@@ -10,6 +10,7 @@ import PrivateRoute from "./pages/components/PrivateRoute";
 import Recipe from "./pages/Recipe";
 import CreateRecipe from "./pages/CreateRecipe";
 import Dashboard from "./pages/Dashboard";
+import UpdateRecipe from "./pages/UpdateRecipe";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/create-recipe" element={<CreateRecipe />} />
+          <Route path="/update-recipe/:recipeId" element={<UpdateRecipe />} />
         </Route>
       </Routes>
     </BrowserRouter>

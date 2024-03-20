@@ -136,9 +136,11 @@ function Dashboard() {
                 </span>
               </div>
               <div className="flex flex-col space-y-3 font-bold text-[#114232] font-proxima-nova">
-                <span className="hover:underline cursor-pointer">
-                  Edit <FilePenLine className="size-4" />
-                </span>
+                <Link to={`/update-recipe/${recipe._id}`}>
+                  <span className="hover:underline cursor-pointer">
+                    Edit <FilePenLine className="size-4" />
+                  </span>
+                </Link>
                 <span>Creation Date : {formatDate(recipe.createdAt)}</span>
                 <span>Last Edited : {formatDate(recipe.updatedAt)}</span>
                 <span
