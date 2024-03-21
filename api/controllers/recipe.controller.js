@@ -60,3 +60,76 @@ export const getRecipe = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getRecipes = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit) || 6;
+    const startIndex = parseInt(req.query.startIndex) || 0;
+
+    let query = {};
+
+    if (req.query.title || "") {
+      query.title = { $regex: req.query.title, $options: "i" };
+    }
+
+    if (req.query.ingredients) {
+      query["ingredients.name"] = {
+        $regex: new RegExp(req.query.ingredients, "i"),
+      };
+    }
+
+    if (req.query.cuisine) {
+      query.cuisine = req.query.cuisine;
+    }
+
+    if (req.query.difficulty) {
+      query.difficulty = req.query.difficulty;
+    }
+
+    if (req.query.totalTime) {
+      query.totalTime = { $lte: req.query.totalTime };
+    }
+
+    const nutritionalFields = [
+      "calories",
+      "protein",
+      "carbohydrates",
+      "fat",
+      "fiber",
+    ];
+    nutritionalFields.forEach((field) => {
+      if (req.query[`${field}Range`] && req.query[`${field}Value`]) {
+        const nutritionalQuery = getNutritionalRangeQuery(
+          req.query[`${field}Range`],
+          req.query[`${field}Value`]
+        );
+        query[field] = nutritionalQuery;
+      }
+    });
+
+    const sort = req.query.sort || "createdAt";
+    const order = req.query.order || "desc";
+
+    const recipes = await Recipe.find(query)
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
+    res.status(200).json(recipes);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getNutritionalRangeQuery = (range, value) => {
+  switch (range) {
+    case "lessThan":
+      return { $lte: value };
+    case "greaterThan":
+      return { $gte: value };
+    case "between":
+      const [min, max] = value.split("-").map(Number);
+      return { $gte: min, $lte: max };
+    default:
+      return {};
+  }
+};

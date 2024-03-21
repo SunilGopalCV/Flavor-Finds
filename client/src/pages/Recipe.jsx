@@ -82,7 +82,7 @@ export default function Recipe() {
   };
 
   return (
-    <main>
+    <main className="bg-[#f6fff9]">
       {loading && (
         <p className="font-proxima-nova text-primary text-center h-max text-5xl">
           Loading...
@@ -95,7 +95,7 @@ export default function Recipe() {
       )}
       {recipe && !loading && !error && (
         <>
-          <div className="flex my-10">
+          <div className="flex mb-10 pt-10">
             <div>
               <img
                 className="object-cover object-center w-[24rem] h-[30rem] rounded-lg rounded-br-[7.8rem] shadow-form mx-20 "
