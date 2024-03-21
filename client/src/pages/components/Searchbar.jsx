@@ -2,28 +2,54 @@ import { useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
+import { useNavigate } from "react-router-dom";
 export default function Searchbar() {
   const { currentUser } = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
   return (
     <div className="flex space-x-[0.7rem] justify-center items-center hidden md:flex ">
-      <form className="flex space-x-[0.7rem] items-center w-[16.86538rem] h-[2.30306rem] mr-5 shadow-form justify-center rounded-full">
-        <FontAwesomeIcon
-          icon={faMagnifyingGlass}
-          style={{ color: "#717171" }}
-          className="w-[1.28744rem] h-[1.39581rem]"
-        />
+      <form
+        onSubmit={handleSubmit}
+        className="flex space-x-[0.7rem] items-center w-[16.86538rem] h-[2.30306rem] mr-5 shadow-form justify-center rounded-full"
+      >
+        <button className="appearance-none focus:outline-none bg-transparent border-none">
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            style={{ color: "#717171" }}
+            className="w-[1.28744rem] h-[1.39581rem]"
+          />
+        </button>
         <input
           type="text"
           placeholder="Looking for something specific?"
           className="focus:outline-none text-input font-overlock w-[13.13181rem] h-[1.39581rem]"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
       <div onClick={toggleDropdown} className="cursor-pointer">
