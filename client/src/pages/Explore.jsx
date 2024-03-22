@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Explore() {
+  const navigate = useNavigate();
   const [searchFilters, setSearchFilters] = useState({
     title: "",
     ingredients: "",
     cuisine: "",
     totalTime: "",
-    difficulty: "",
+    difficulty: "Easy",
     caloriesRange: "",
     caloriesValue: "",
     fatRange: "",
@@ -17,7 +19,83 @@ export default function Explore() {
     proteinValue: "",
     fiberRange: "",
     fiberValue: "",
+    sort: "createdAt",
+    order: "desc",
   });
+  const [loading, setLoading] = useState(false);
+  const [recipes, setRecipes] = useState([]);
+  console.log(recipes);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const titleFromUrl = urlParams.get("title");
+    const ingredientsFromUrl = urlParams.get("ingredients");
+    const cuisineFromUrl = urlParams.get("cuisine");
+    const totalTimeFromUrl = urlParams.get("totalTime");
+    const difficultyFromUrl = urlParams.get("difficulty");
+    const caloriesRangeFromUrl = urlParams.get("caloriesRange");
+    const caloriesValueFromUrl = urlParams.get("caloriesValue");
+    const fatRangeFromUrl = urlParams.get("fatRange");
+    const fatValueFromUrl = urlParams.get("fatValue");
+    const carbohydratesRangeFromUrl = urlParams.get("carbohydratesRange");
+    const carbohydratesValueFromUrl = urlParams.get("carbohydratesValue");
+    const proteinRangeFromUrl = urlParams.get("proteinRange");
+    const proteinValueFromUrl = urlParams.get("proteinValue");
+    const fiberRangeFromUrl = urlParams.get("fiberRange");
+    const fiberValueFromUrl = urlParams.get("fiberValue");
+    const sortFromUrl = urlParams.get("sort");
+    const orderFromUrl = urlParams.get("order");
+
+    if (
+      titleFromUrl ||
+      ingredientsFromUrl ||
+      cuisineFromUrl ||
+      totalTimeFromUrl ||
+      difficultyFromUrl ||
+      caloriesRangeFromUrl ||
+      caloriesValueFromUrl ||
+      fatRangeFromUrl ||
+      fatValueFromUrl ||
+      carbohydratesRangeFromUrl ||
+      carbohydratesValueFromUrl ||
+      proteinRangeFromUrl ||
+      proteinValueFromUrl ||
+      fiberRangeFromUrl ||
+      fiberValueFromUrl ||
+      sortFromUrl ||
+      orderFromUrl
+    ) {
+      setSearchFilters({
+        title: titleFromUrl || "",
+        ingredients: ingredientsFromUrl || "",
+        cuisine: cuisineFromUrl || "",
+        totalTime: totalTimeFromUrl || "",
+        difficulty: difficultyFromUrl || "Easy",
+        caloriesRange: caloriesRangeFromUrl || "",
+        caloriesValue: caloriesValueFromUrl || "",
+        fatRange: fatRangeFromUrl || "",
+        fatValue: fatValueFromUrl || "",
+        carbohydratesRange: carbohydratesRangeFromUrl || "",
+        carbohydratesValue: carbohydratesValueFromUrl || "",
+        proteinRange: proteinRangeFromUrl || "",
+        proteinValue: proteinValueFromUrl || "",
+        fiberRange: fiberRangeFromUrl || "",
+        fiberValue: fiberValueFromUrl || "",
+        sort: sortFromUrl || "createdAt",
+        order: orderFromUrl || "desc",
+      });
+    }
+
+    const fetchRecipes = async () => {
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await fetch(`/api/recipe/get?${searchQuery}`);
+      const data = await res.json();
+      setRecipes(data);
+      setLoading(false);
+    };
+    fetchRecipes();
+  }, [location.search]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,11 +103,36 @@ export default function Explore() {
       ...searchFilters,
       [name]: value,
     });
+    if (e.target.id === "sort_order") {
+      const sort = e.target.value.split("_")[0] || "createdAt";
+      const order = e.target.value.split("_")[1] || "desc";
+
+      setSearchFilters({ ...searchFilters, sort, order });
+    }
   };
 
-  const handleSearch = () => {
-    console.log("Search Filters:", searchFilters);
-    // Implement search logic here
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams();
+    urlParams.set("title", searchFilters.title);
+    urlParams.set("ingredients", searchFilters.ingredients);
+    urlParams.set("cuisine", searchFilters.cuisine);
+    urlParams.set("totalTime", searchFilters.totalTime);
+    urlParams.set("difficulty", searchFilters.difficulty);
+    urlParams.set("caloriesRange", searchFilters.caloriesRange);
+    urlParams.set("caloriesValue", searchFilters.caloriesValue);
+    urlParams.set("fatRange", searchFilters.fatRange);
+    urlParams.set("fatValue", searchFilters.fatValue);
+    urlParams.set("carbohydratesRange", searchFilters.carbohydratesRange);
+    urlParams.set("carbohydratesValue", searchFilters.carbohydratesValue);
+    urlParams.set("proteinRange", searchFilters.proteinRange);
+    urlParams.set("proteinValue", searchFilters.proteinValue);
+    urlParams.set("fiberRange", searchFilters.fiberRange);
+    urlParams.set("fiberValue", searchFilters.fiberValue);
+    urlParams.set("sort", searchFilters.sort);
+    urlParams.set("order", searchFilters.order);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
   };
 
   return (
@@ -110,7 +213,7 @@ export default function Explore() {
           >
             Difficulty:
           </label>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 cursor-pointer">
             <label>
               <input
                 type="radio"
@@ -156,6 +259,7 @@ export default function Explore() {
               onChange={handleInputChange}
               className="font-overlock text-[1.15rem] rounded-lg input-field border border-solid border-[#656565] focus:border-blue-500 focus:outline-none"
             >
+              <option value="">Select Range</option>
               <option value="lessThan">Less Than</option>
               <option value="greaterThan">Greater Than</option>
               <option value="between">Between</option>
@@ -213,6 +317,7 @@ export default function Explore() {
               id="carbohydratesRange"
               value={searchFilters.carbohydratesRange}
               className="font-overlock text-[1.15rem] rounded-lg input-field border border-solid border-[#656565] focus:border-blue-500 focus:outline-none"
+              onChange={handleInputChange}
             >
               <option value="">Select Range</option>
               <option value="lessThan">Less Than</option>
@@ -291,13 +396,38 @@ export default function Explore() {
         </div>
         <button
           onClick={handleSearch}
-          className="bg-[#114232] font-proxima-nova text-[1.15rem] text-white rounded-md py-3  px-5 hover:bg-[#1c644c] w-full"
+          className="bg-[#114232] font-proxima-nova text-[1.15rem] text-white rounded-md py-3  px-5 hover:bg-[#1c644c] w-full cursor-pointer"
         >
           Search
         </button>
       </div>
       <div className="pl-[22.5rem] pr-[2rem] pt-[2rem] w-3/4 h-90vh">
-        <h1 className="font-proxima-nova text-primary">Recipies Found:</h1>
+        <div className="flex justify-between">
+          <span className="text-[1.3rem] font-bold font-proxima-nova text-primary">
+            Recipies Found:
+          </span>
+          <span className="flex align-middle space-x-3">
+            <label
+              className="font-proxima-nova text-[1.15rem] font-bold text-primary"
+              htmlFor="sort_order"
+            >
+              Sort:
+            </label>
+            <select
+              name="sort"
+              id="sort_order"
+              defaultValue={"createdAt_desc"}
+              value={searchFilters.sort}
+              onChange={handleInputChange}
+              className="font-overlock text-[1.15rem] rounded-lg input-field border border-solid border-[#656565] focus:border-blue-500 focus:outline-none w-[10rem]"
+            >
+              <option value="createdAt_desc">Latest</option>
+              <option value="createdAt_asc">Oldest</option>
+              <option value="totalTime_asc">Total Time</option>
+              <option value="caloriesValue_asc">Calories(low to high)</option>
+            </select>
+          </span>
+        </div>
       </div>
     </div>
   );

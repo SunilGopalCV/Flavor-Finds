@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function Searchbar() {
   const { currentUser } = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [title, setTitle] = useState("");
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
@@ -18,16 +18,16 @@ export default function Searchbar() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm", searchTerm);
+    urlParams.set("title", title);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
+    const titleFromUrl = urlParams.get("title");
+    if (titleFromUrl) {
+      setTitle(titleFromUrl);
     }
   }, [location.search]);
 
@@ -48,8 +48,8 @@ export default function Searchbar() {
           type="text"
           placeholder="Looking for something specific?"
           className="focus:outline-none text-input font-overlock w-[13.13181rem] h-[1.39581rem]"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </form>
       <div onClick={toggleDropdown} className="cursor-pointer">
