@@ -19,7 +19,7 @@ const NavLinks = () => {
         Home
       </NavLink>
       <NavLink
-        to="/explore"
+        to="/search"
         className={`text-primary font-proxima-nova ${isActive("/explore")}`}
       >
         Explore
