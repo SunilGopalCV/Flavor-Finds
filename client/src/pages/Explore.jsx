@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import RecipeCard from "./RecipeCard";
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -24,7 +25,8 @@ export default function Explore() {
   });
   const [loading, setLoading] = useState(false);
   const [recipes, setRecipes] = useState([]);
-  console.log(recipes);
+  const [showMore, setShowMore] = useState(false);
+  const [resultCount, setresultCount] = useState(0);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -88,10 +90,14 @@ export default function Explore() {
 
     const fetchRecipes = async () => {
       setLoading(true);
-      const searchQuery = urlParams.toString();
+      const searchQuery = new URLSearchParams(location.search);
       const res = await fetch(`/api/recipe/get?${searchQuery}`);
       const data = await res.json();
-      setRecipes(data);
+      setresultCount(data.length);
+      setRecipes(data.slice(0, 6));
+      if (data.length > 6) {
+        setShowMore(true);
+      }
       setLoading(false);
     };
     fetchRecipes();
@@ -99,15 +105,19 @@ export default function Explore() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setSearchFilters({
-      ...searchFilters,
-      [name]: value,
-    });
-    if (e.target.id === "sort_order") {
-      const sort = e.target.value.split("_")[0] || "createdAt";
-      const order = e.target.value.split("_")[1] || "desc";
 
-      setSearchFilters({ ...searchFilters, sort, order });
+    if (name === "sort") {
+      const [sort, order] = value.split("_");
+      setSearchFilters({
+        ...searchFilters,
+        sort: sort || "createdAt",
+        order: order || "desc",
+      });
+    } else {
+      setSearchFilters({
+        ...searchFilters,
+        [name]: value,
+      });
     }
   };
 
@@ -135,9 +145,27 @@ export default function Explore() {
     navigate(`/search?${searchQuery}`);
   };
 
+  const onShowMoreClick = async () => {
+    const startIndex = recipes.length;
+    const limit = 6;
+    const searchQuery = new URLSearchParams(location.search);
+    searchQuery.set("startIndex", startIndex);
+    searchQuery.set("limit", limit);
+    const res = await fetch(`/api/recipe/get?${searchQuery.toString()}`);
+    const data = await res.json();
+    if (data.length > 0) {
+      setRecipes([...recipes, ...data]);
+    } else {
+      setShowMore(false);
+    }
+  };
+
   return (
     <div className="flex flex-row justify-center items-start mx-auto max-w-7xl">
-      <div className="bg-[#ffffff] fixed z-20 inset-0 left-[max(0px,calc(50%-45rem))] right-auto w-[17rem] pb-10 pl-8 pr-6 overflow-y-auto pt-20">
+      <form
+        onSubmit={handleSearch}
+        className="bg-[#ffffff] fixed z-20 inset-0 left-[max(0px,calc(50%-45rem))] right-auto w-[17rem] pb-10 pl-8 pr-6 overflow-y-auto pt-20"
+      >
         <div className="mb-4 mt-4">
           <label
             className="block mb-3 font-proxima-nova text-[1.15rem] font-bold text-primary"
@@ -221,6 +249,7 @@ export default function Explore() {
                 id="difficulty"
                 value="Easy"
                 onChange={handleInputChange}
+                checked={searchFilters.difficulty === "Easy"} // Add this line
               />
               Easy
             </label>
@@ -230,6 +259,7 @@ export default function Explore() {
                 name="difficulty"
                 value="Medium"
                 onChange={handleInputChange}
+                checked={searchFilters.difficulty === "Medium"} // Add this line
               />
               Medium
             </label>
@@ -239,6 +269,7 @@ export default function Explore() {
                 name="difficulty"
                 value="Hard"
                 onChange={handleInputChange}
+                checked={searchFilters.difficulty === "Hard"} // Add this line
               />
               Hard
             </label>
@@ -395,16 +426,16 @@ export default function Explore() {
           </div>
         </div>
         <button
-          onClick={handleSearch}
+          type="submit"
           className="bg-[#114232] font-proxima-nova text-[1.15rem] text-white rounded-md py-3  px-5 hover:bg-[#1c644c] w-full cursor-pointer"
         >
           Search
         </button>
-      </div>
+      </form>
       <div className="pl-[22.5rem] pr-[2rem] pt-[2rem] w-3/4 h-90vh">
         <div className="flex justify-between">
           <span className="text-[1.3rem] font-bold font-proxima-nova text-primary">
-            Recipies Found:
+            Recipies Found ({resultCount}):
           </span>
           <span className="flex align-middle space-x-3">
             <label
@@ -416,8 +447,7 @@ export default function Explore() {
             <select
               name="sort"
               id="sort_order"
-              defaultValue={"createdAt_desc"}
-              value={searchFilters.sort}
+              value={`${searchFilters.sort}_${searchFilters.order}`}
               onChange={handleInputChange}
               className="font-overlock text-[1.15rem] rounded-lg input-field border border-solid border-[#656565] focus:border-blue-500 focus:outline-none w-[10rem]"
             >
@@ -428,6 +458,33 @@ export default function Explore() {
             </select>
           </span>
         </div>
+        <div className="my-8 flex flex-wrap gap-6">
+          {!loading && recipes.length === 0 && (
+            <p className="text-xl text-red-500 font-bold font-roboto">
+              No Recipes Found!
+            </p>
+          )}
+          {loading && (
+            <p className="text-xl text-[#114232] font-bold font-roboto text-center">
+              Loading
+            </p>
+          )}
+          {!loading &&
+            recipes &&
+            recipes.map((recipe) => (
+              <RecipeCard key={recipe._id} recipe={recipe} />
+            ))}
+        </div>
+        {resultCount > 6 && showMore && (
+          <button
+            onClick={() => {
+              onShowMoreClick();
+            }}
+            className="w-full text-[#114232] bg-white border-2 border-[#114232] rounded-md py-2 my-4 font-proxima-nova font-semibold text-center flex items-center justify-center hover:bg-[#114232] hover:text-white cursor-pointer"
+          >
+            Show more
+          </button>
+        )}
       </div>
     </div>
   );

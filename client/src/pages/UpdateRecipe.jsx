@@ -48,6 +48,12 @@ export default function UpdateRecipe() {
         return;
       }
       setFormData(data);
+      setInstructionInputFields(
+        data.instructions.map((instruction, index) => ({
+          id: index + 1,
+          value: instruction.step,
+        }))
+      );
     };
     fetchRecipe();
   }, []);
@@ -75,7 +81,7 @@ export default function UpdateRecipe() {
     setInstructionInputFields(newInstructionInputFields);
 
     const updatedInstructions = newInstructionInputFields.map(
-      (field) => ({ step: field.value }) // Update to match the schema format
+      (field) => field.value // Update to include only the instruction text
     );
     setFormData({ ...formData, instructions: updatedInstructions });
   };
