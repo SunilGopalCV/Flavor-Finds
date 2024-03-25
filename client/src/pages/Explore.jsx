@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import RecipeCard from "./RecipeCard";
+import RecipeCard from "./components/RecipeCard";
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -432,7 +432,7 @@ export default function Explore() {
           Search
         </button>
       </form>
-      <div className="pl-[22.5rem] pr-[2rem] pt-[2rem] w-3/4 h-90vh">
+      <div className="pl-[22.5rem] pr-[2rem] pt-[2rem] w-3/4 h-90vh bg-[#edffee]">
         <div className="flex justify-between">
           <span className="text-[1.3rem] font-bold font-proxima-nova text-primary">
             Recipies Found ({resultCount}):

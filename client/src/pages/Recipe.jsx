@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleUser } from "@fortawesome/free-solid-svg-icons";
+import Footer from "./components/Footer";
 
 export default function Recipe() {
   const { currentUser } = useSelector((state) => state.user);
@@ -312,6 +313,7 @@ export default function Recipe() {
                 </div>
               ))}
           </div>
+          <Footer />
         </>
       )}
     </main>

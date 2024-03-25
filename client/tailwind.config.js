@@ -16,7 +16,7 @@ module.exports = {
         "proxima-nova": "'Proxima Nova'",
         roboto: "Roboto",
         actor: "Actor",
-        "brandon-grotesque": "'Brandon Grotesque'",
+        "brandon-grotesque": "'Brandon Grotesque', sans-serif",
       },
       borderRadius: {
         "8xl": "27px",

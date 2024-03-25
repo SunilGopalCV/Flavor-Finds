@@ -6,8 +6,8 @@ const NavLinks = () => {
   const location = useLocation();
   const isActive = (path) => {
     return location.pathname === path
-      ? "font-extrabold"
-      : "no-underline transition duration-300 ease-in-out hover:text-secondary hover:text-base";
+      ? "font-bold scale-110 text-primary"
+      : "no-underline hover:scale-110 hover:text-primary hover:font-bold transform transition-transform duration-300";
   };
 
   return (
@@ -20,7 +20,7 @@ const NavLinks = () => {
       </NavLink>
       <NavLink
         to="/search"
-        className={`text-primary font-proxima-nova ${isActive("/explore")}`}
+        className={`text-primary font-proxima-nova ${isActive("/search")}`}
       >
         Explore
       </NavLink>

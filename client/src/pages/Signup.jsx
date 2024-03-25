@@ -45,7 +45,7 @@ export default function Signup() {
       <div className="flex flex-col align-middle items-center">
         <div className="flex align-middle items-center space-x-3">
           <Logo />
-          <h2>Flavor Finds</h2>
+          <h2 className="font-brandon-grotesque text-primary">Flavor Finds</h2>
         </div>
         <div className="md:w-1/2 flex items-center justify-center">
           <img
@@ -58,7 +58,9 @@ export default function Signup() {
       </div>
       <div className="md:w-1/2 flex items-center justify-center">
         <div className="w-full max-w-md">
-          <h2 className="text-3xl font-semibold mb-2 text-gray-700">Sign Up</h2>
+          <h2 className="text-3xl font-semibold font-brandon-grotesque mb-2 text-gray-700">
+            Sign Up
+          </h2>
           <p className="text-primary font-proxima-nova">
             Sign up today to discover endless recipes, share your favorites, and
             connect with fellow food enthusiasts!

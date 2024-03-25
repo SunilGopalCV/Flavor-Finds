@@ -28,6 +28,18 @@ export const getCommentsByRecipeId = async (req, res, next) => {
   }
 };
 
+export const getRecentComments = async (req, res, next) => {
+  try {
+    const comments = await Comment.find()
+      .sort({ createdAt: -1 })
+      .populate("user", "username avatar")
+      .populate("recipe", "title");
+    res.status(200).json(comments);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteComment = async (req, res, next) => {
   try {
     const { commentId } = req.params;

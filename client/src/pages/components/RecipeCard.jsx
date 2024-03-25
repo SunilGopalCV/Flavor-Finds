@@ -1,10 +1,25 @@
 import { Link } from "react-router-dom";
 
+const lowHueColors = [
+  "#FFE1E1",
+  "#E1FFD6",
+  "#E1F3FF",
+  "#FFE1FF",
+  "#E5E1FF",
+  "#FFF4E1",
+];
+
 export default function RecipeCard({ recipe }) {
+  const randomColorIndex = Math.floor(Math.random() * lowHueColors.length);
+  const randomColor = lowHueColors[randomColorIndex];
+
   return (
     <div>
       <Link to={`/recipe/${recipe._id}`} className="no-underline">
-        <div className="w-full sm:w-[15.5rem] rounded-2xl overflow-hidden shadow-lg bg-[#ffe1e1] p-3">
+        <div
+          className="w-full sm:w-[15.5rem] rounded-2xl overflow-hidden shadow-lg p-3"
+          style={{ backgroundColor: randomColor }}
+        >
           <div className="overflow-hidden rounded-2xl">
             <img
               src={recipe.imageUrl}
@@ -16,10 +31,10 @@ export default function RecipeCard({ recipe }) {
             {recipe.title}
           </div>
           <div className="flex space-x-3 mt-2 text-[0.8rem] font-bold">
-            <span className="bg-white px-2 py-1 items-center font-proxima-nova text-[114232] rounded-full shadow-form text-black">
+            <span className="bg-white px-2 py-1 items-center font-proxima-nova rounded-full shadow-form text-black">
               {recipe.cuisine}
             </span>
-            <span className="bg-white px-2 py-1 items-center font-proxima-nova text-[114232] rounded-full shadow-form text-black">
+            <span className="bg-white px-2 py-1 items-center font-proxima-nova rounded-full shadow-form text-black">
               {recipe.totalTime} Minutes
             </span>
             <span className="bg-white px-2 py-1 items-center font-proxima-nova text-[114232] rounded-full shadow-form text-black">
