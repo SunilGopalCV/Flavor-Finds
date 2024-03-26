@@ -98,7 +98,7 @@ function Carousel() {
             <div>
               <img
                 className="w-[22rem] h-[22rem] rounded-[5rem]"
-                src="/images/Slide1Img.png"
+                src="/images/Slide3.png"
                 alt=""
               />
             </div>
@@ -125,7 +125,7 @@ function Carousel() {
             <div>
               <img
                 className="w-[22rem] h-[22rem] rounded-[5rem]"
-                src="/images/Slide1Img.png"
+                src="/images/Slide4.png"
                 alt=""
               />
             </div>
@@ -147,7 +147,7 @@ function Carousel() {
             <div>
               <img
                 className="w-[22rem] h-[22rem] rounded-[5rem]"
-                src="/images/Slide1Img.png"
+                src="/images/Slide5.png"
                 alt=""
               />
             </div>
