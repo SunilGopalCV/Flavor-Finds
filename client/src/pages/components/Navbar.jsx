@@ -7,7 +7,7 @@ const NavLinks = () => {
   const isActive = (path) => {
     return location.pathname === path
       ? "font-bold scale-110 text-primary"
-      : "no-underline hover:scale-110 hover:text-primary hover:font-bold transform transition-transform duration-300";
+      : "no-underline hover:scale-110 hover:text-primary hover:font-semibold transform transition-transform duration-300";
   };
 
   return (

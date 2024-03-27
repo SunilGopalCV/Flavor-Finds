@@ -27,10 +27,10 @@ export default function RecipeCard({ recipe }) {
               className="w-[15.5rem] h-[7rem] object-cover object-center rounded-2xl hover:scale-105 transition-scale duration-300"
             />
           </div>
-          <div className="font-bold text-[#114232] text-xl font-proxima-nova">
+          <div className="text-[#114232] text-xl font-proxima-nova">
             {recipe.title}
           </div>
-          <div className="flex space-x-3 mt-2 text-[0.8rem] font-bold">
+          <div className="flex space-x-3 mt-2 text-[0.8rem]">
             <span className="bg-white px-2 py-1 items-center font-proxima-nova rounded-full shadow-form text-black">
               {recipe.cuisine}
             </span>
